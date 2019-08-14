@@ -17,7 +17,7 @@ public:
 	//returns the normal vector always positively looking
 	Vector2f GetNormal() const;
 	//returns a new vector reflected depending on the direction
-	Vector2f Reflect(const Vector2f vectorDir) const;
+	Vector2f Reflect(const Vector2f& vectorDir) const;
 
 	//this method returns true if there is an intersection, otherwise returns false. If there is an intersection stores the result in the vector2 pointer
 	bool Intersect(const Bullet& other) const;

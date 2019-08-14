@@ -1,17 +1,18 @@
 #include "stdafx.h"
 #include "Grid.h"
+#include "Defines.h"
 
 //needed for ptrs
 class Node;
 class BulletManager;
 class Segment;
 
-Grid::Grid(const int rows, const int cols, const float cellWidth, const float cellHeight)
+Grid::Grid(int rows, int cols)
 {
 	this->rows = rows;
 	this->cols = cols;
-	this->cellW = cellWidth;
-	this->cellH = cellHeight;
+	this->cellW =  WINDOW_W / ((float)rows - 1);
+	this->cellH = WINDOW_H / ((float)cols - 1);
 
 	for (size_t i = 0; i < rows; i++)
 	{

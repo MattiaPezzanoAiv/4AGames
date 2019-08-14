@@ -25,7 +25,7 @@ Vector2f Segment::GetNormal() const
 	return VectorHelper::Normalized(Vector2f(-dy, dx));
 }
 
-Vector2f Segment::Reflect(const Vector2f vectorDir) const
+Vector2f Segment::Reflect(const Vector2f& vectorDir) const
 {
 	auto normal = GetNormal();
 	//check if I have to flip the normal

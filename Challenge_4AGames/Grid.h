@@ -8,7 +8,7 @@
 class Grid
 {
 public:
-	Grid(const int width,const int height,const float cellWidth,const float cellHeight);
+	Grid(int width,int height);
 	~Grid();
 	Grid(const Grid& copy) = delete;	//disable copy
 
