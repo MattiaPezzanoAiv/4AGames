@@ -50,7 +50,6 @@ Grid::Grid(int rows, int cols)
 
 Grid::~Grid()
 {
-	std::cout << "count " << nodes.size() << std::endl;
 	for (auto n : nodes)
 	{
 		delete n;

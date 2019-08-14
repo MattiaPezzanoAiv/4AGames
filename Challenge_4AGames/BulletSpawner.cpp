@@ -48,5 +48,5 @@ void BulletSpawner::CallFireFromOtherThread() const
 	float lifeTime = rand() % 10;
 
 	manager->Fire(Vector2f(posX, posY), dir, BULLET_SPEED, manager->GetGlobalTime() + rand() % 10, lifeTime);
-	std::cout << "spawned bullet from thread at pos -> X: " << posX << " Y: " << posY << std::endl;
+	//std::cout << "spawned bullet from thread at pos -> X: " << posX << " Y: " << posY << std::endl;
 }

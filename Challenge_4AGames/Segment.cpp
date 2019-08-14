@@ -74,6 +74,11 @@ bool Segment::Intersect(const Bullet & other) const
 	float ahLen = VectorHelper::Magnitude(ah);
 	return ((acLen * acLen) - (ahLen * ahLen)) <= r2;*/
 
+	/*sf::Vector2f ac = other.GetPosition() - p1;
+	sf::Vector2f ab = VectorHelper::Normalized(p2 - p1);
+	sf::Vector2f ah = VectorHelper::Dot(ac, ab) * ab;
+	sf::Vector2f h = p1 + ah;
+	return VectorHelper::Magnitude(h - other.GetPosition()) <= BULLET_RADIUS;*/
 
 	float p1Dist = VectorHelper::Magnitude(this->p1 - other.GetPosition());
 	float p2Dist = VectorHelper::Magnitude(this->p2 - other.GetPosition());

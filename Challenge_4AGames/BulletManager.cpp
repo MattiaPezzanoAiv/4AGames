@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "BulletManager.h"
+#include <cstdio>
+#include <ctime>
 
 #define LOG_ENABLED
 
@@ -64,6 +66,11 @@ void BulletManager::SyncWriteToReadBuffer()
 
 void BulletManager::Update(float deltaTime)
 {
+	std::clock_t start;
+	double duration;
+
+	start = std::clock();
+
 	globalTime += deltaTime;
 
 	//Move bullet and check for its collision
@@ -89,6 +96,10 @@ void BulletManager::Update(float deltaTime)
 			bool intersect = false;
 			for (size_t j = 0; j < walls.size(); j++)
 			{
+				if(VectorHelper::Magnitude(walls[j]->GetPoint(0) - readBuffer[i]->GetPosition()) > 100 && 
+					VectorHelper::Magnitude(walls[j]->GetPoint(1) - readBuffer[i]->GetPosition()) > 100)
+					continue;	//600k iterations 5fps average. not so much improvement
+
 				auto pos = walls[j]->GetPoint(0);
 				auto dir = VectorHelper::Normalized(walls[j]->GetPoint(0) - pos);
 				sf::Vector2f intersection;
@@ -111,6 +122,8 @@ void BulletManager::Update(float deltaTime)
 		}
 		i++;
 	}
+	duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
+	//std::cout << "DURATION: " << duration << std::endl;
 }
 
 void BulletManager::RenderWalls(sf::RenderWindow* const windowPtr) const
