@@ -36,8 +36,24 @@ Vector2f Segment::Reflect(const Vector2f& vectorDir) const
 	Vector2f reflectedVector;
 	Vector2f dir(vectorDir);
 	float dotMulTwo = 2 * VectorHelper::Dot(vectorDir, normal);
-	if (!AlmostZero(dotMulTwo))
+	if (!AlmostZero(dotMulTwo))	//almost parallel
 	{
+		/*
+		handles this
+
+		° A
+		|
+		|
+		|
+		° B
+		
+		^ dir 
+		| 
+		|
+		|
+		
+		this should reflect in the opposite way
+		*/
 		reflectedVector = normal * dotMulTwo;
 		reflectedVector = dir - reflectedVector;
 	}
@@ -47,12 +63,21 @@ Vector2f Segment::Reflect(const Vector2f& vectorDir) const
 	return reflectedVector;
 }
 
-
 bool Segment::Intersect(const Bullet & other) const
 {
+	/*sf::Vector2f ac = other.GetPosition() - p1;
+	float r2 = BULLET_RADIUS * BULLET_RADIUS;
+	sf::Vector2f ab = VectorHelper::Normalized(p2 - p1);
+	sf::Vector2f ah = VectorHelper::Dot(ac, ab) * ab;
+
+	float acLen = VectorHelper::Magnitude(ac);
+	float ahLen = VectorHelper::Magnitude(ah);
+	return ((acLen * acLen) - (ahLen * ahLen)) <= r2;*/
+
+
 	float p1Dist = VectorHelper::Magnitude(this->p1 - other.GetPosition());
 	float p2Dist = VectorHelper::Magnitude(this->p2 - other.GetPosition());
-	return abs(p1Dist + p2Dist - this->GetLength()) <= BULLET_RADIUS;	//this should work
+	return (p1Dist + p2Dist - this->GetLength()) <= BULLET_RADIUS;	//this should work
 }
 
 void Segment::Render(RenderWindow* const windowPtr) const
