@@ -16,10 +16,6 @@ Bullet::Bullet(Vector2f pos, Vector2f dir, float speed, float spawnTime, float l
 	this->SetActive(true);
 }
 
-Bullet::~Bullet()
-{
-}
-
 void Bullet::Render(sf::RenderWindow * const windowPtr) const
 {
 	windowPtr->draw(this->renderShape);

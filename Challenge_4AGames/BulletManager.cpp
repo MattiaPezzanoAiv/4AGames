@@ -68,7 +68,7 @@ void BulletManager::Update(float deltaTime)
 
 	//Move bullet and check for its collision
 	int i = 0;
-	while(i < readBuffer.size())
+	while (i < readBuffer.size())
 	{
 		if (globalTime >= readBuffer[i]->GetSpawnTime() && !readBuffer[i]->IsActive())	//it's time to join
 			readBuffer[i]->SetActive(true);
@@ -89,9 +89,6 @@ void BulletManager::Update(float deltaTime)
 			bool intersect = false;
 			for (size_t j = 0; j < walls.size(); j++)
 			{
-				if (!walls[j]->IsActive())
-					continue;
-
 				auto pos = walls[j]->GetPoint(0);
 				auto dir = VectorHelper::Normalized(walls[j]->GetPoint(0) - pos);
 				sf::Vector2f intersection;
@@ -120,8 +117,7 @@ void BulletManager::RenderWalls(sf::RenderWindow* const windowPtr) const
 {
 	for (auto wall : walls)
 	{
-		if (wall->IsActive())
-			wall->Render(windowPtr);
+		wall->Render(windowPtr);
 	}
 }
 

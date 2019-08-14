@@ -13,7 +13,7 @@ BulletSpawner::BulletSpawner(int minRateMs, int maxRateMs, BulletManager* manage
 BulletSpawner::~BulletSpawner()
 {
 	killFlag = true;
-	this->myThread.join();
+	this->myThread.join();	//to be sure the thread finish is job. avoid leak
 }
 
 void BulletSpawner::Run()

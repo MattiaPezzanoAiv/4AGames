@@ -13,10 +13,6 @@ Segment::Segment(Vector2f p1, Vector2f p2)
 	this->line.append(Vertex(this->p2, WALL_COLOR));
 }
 
-Segment::~Segment()
-{
-}
-
 float Segment::GetLength() const
 {
 	return VectorHelper::Magnitude(p1 - p2);

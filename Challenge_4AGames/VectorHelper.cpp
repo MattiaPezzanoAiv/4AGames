@@ -1,15 +1,6 @@
 #include "stdafx.h"
 #include "VectorHelper.h"
 
-VectorHelper::VectorHelper()
-{
-}
-
-VectorHelper::~VectorHelper()
-{
-	
-}
-
 float VectorHelper::Dot(const Vector2f & v1, const Vector2f & v2)
 {
 	return v1.x * v2.x + v1.y * v2.y;

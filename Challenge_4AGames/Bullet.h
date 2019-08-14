@@ -6,11 +6,10 @@
 
 using namespace sf;
 
-class Bullet : public ActivableObject
+class Bullet
 {
 public:
 	Bullet(Vector2f pos, Vector2f dir, float speed, float spawnTime, float lifeTime);
-	~Bullet();
 
 	void Render(sf::RenderWindow* const windowPtr) const;
 	//this method is responsible to sync the position etc, to the circle shape just before rendering
@@ -24,9 +23,20 @@ public:
 	Vector2f GetDirection() const;
 	float GetSpawnTime() const;
 
+	bool IsActive() const
+	{
+		return isActive;
+	}
+	void SetActive(bool active)
+	{
+		isActive = active;
+	}
+
 private:
 	Vector2f position, direction;
 	float speed, spawnTime, lifeTime;
 	sf::CircleShape renderShape;
+
+	bool isActive = true;
 };
 

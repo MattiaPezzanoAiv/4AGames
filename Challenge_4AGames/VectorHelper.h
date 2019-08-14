@@ -7,8 +7,6 @@ using namespace sf;
 class VectorHelper
 {
 public:
-	VectorHelper();
-	~VectorHelper();
 
 	//return the dot product of two given vectors
 	static float Dot(const Vector2f& v1, const Vector2f& v2);
