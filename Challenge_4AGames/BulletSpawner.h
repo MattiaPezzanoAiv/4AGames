@@ -11,7 +11,7 @@ public:
 	BulletSpawner(int minRateMs, int maxRateMs, BulletManager* manager);
 	~BulletSpawner();
 
-	float minRate, maxRate;
+	int minRate, maxRate;
 
 	void Run();
 

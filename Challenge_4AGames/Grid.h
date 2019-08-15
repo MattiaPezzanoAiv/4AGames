@@ -9,7 +9,7 @@
 class Grid
 {
 public:
-	Grid(int width,int height);
+	Grid(unsigned int width,unsigned int height);
 	~Grid();
 	Grid(const Grid& copy) = delete;	//disable copy
 
@@ -17,7 +17,7 @@ public:
 	int BidimensionalToIndex(int row, int col) const;
 
 private:
-	int rows, cols;
+	unsigned int rows, cols;
 	std::vector<Node*> nodes;
 	float cellW, cellH;
 

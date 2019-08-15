@@ -18,8 +18,8 @@ BulletSpawner::~BulletSpawner()
 
 void BulletSpawner::Run()
 {
-	float sleepTime = 0;
-	float range = maxRate - minRate;
+	int sleepTime = 0;
+	int range = maxRate - minRate;
 	if (range == 0)
 		range = maxRate;
 

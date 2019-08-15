@@ -7,7 +7,7 @@ class Node;
 class BulletManager;
 class Segment;
 
-Grid::Grid(int rows, int cols)
+Grid::Grid(unsigned int rows,unsigned int cols)
 {
 	this->rows = rows;
 	this->cols = cols;

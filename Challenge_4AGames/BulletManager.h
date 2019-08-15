@@ -9,10 +9,6 @@
 class BulletManager
 {
 public:
-	Bullet * GetFirstBullet()
-	{
-		return readBuffer[0];
-	}
 	~BulletManager();
 
 	void AddWall(Segment wall);
@@ -42,13 +38,13 @@ private:
 
 	//input queue. this is supposed to handle the new incoming bullet from all threads
 	//every time is accessed should be locked
-	std::queue<Bullet*> writeBuffer;
+	std::queue<Bullet> writeBuffer;
 	//after each frame the write buffer is added to this vector. This is supposed to contains all the bullets active in the current frame 
 	//used to simulate the step
-	std::vector<Bullet*> readBuffer;
+	std::vector<Bullet> readBuffer;
 
 	//write buffer manipulation
-	void AddBulletToSimulation(Bullet* newBullet);	//this will lock
+	void AddBulletToSimulation(Bullet newBullet);	//this will lock
 
 };
 
