@@ -60,7 +60,7 @@ void Grid::DistributeSegments(BulletManager * const bManager)
 {
 	for (size_t i = 0; i < this->rows; i++)
 	{
-		for (size_t j = 0; j < cols; j++)
+		for (size_t j = 0; j < this->cols; j++)
 		{
 			if (j > 0)
 			{
@@ -69,8 +69,7 @@ void Grid::DistributeSegments(BulletManager * const bManager)
 
 				sf::Vector2f p1(nodes[idx1]->GridToScreenPos(cellW, cellH));
 				sf::Vector2f p2(nodes[idx2]->GridToScreenPos(cellW, cellH));
-				Segment* seg = new Segment(p1, p2);
-				bManager->AddWall(seg);
+				bManager->AddWall(std::move(Segment(p1, p2)));
 			}
 			if (i > 0)
 			{
@@ -79,8 +78,7 @@ void Grid::DistributeSegments(BulletManager * const bManager)
 
 				sf::Vector2f p1(nodes[idx1]->GridToScreenPos(cellW, cellH));
 				sf::Vector2f p2(nodes[idx2]->GridToScreenPos(cellW, cellH));
-				Segment* seg = new Segment(p1, p2);
-				bManager->AddWall(seg);
+				bManager->AddWall(std::move(Segment(p1, p2)));
 			}
 		}
 	}

@@ -8,14 +8,14 @@
 BulletManager::~BulletManager()
 {
 	//destroy all walls
-	for (size_t i = 0; i < walls.size(); i++)
+	/*for (size_t i = 0; i < walls.size(); i++)
 	{
-		Segment* ptr = walls[i];
+		Segment& ptr = walls[i];
 		if (ptr == nullptr)
 			continue;
 
 		delete ptr;
-	}
+	}*/
 
 	SyncWriteToReadBuffer();	//if something is still in write queue, blit it to read buffer and destroy it
 
@@ -30,10 +30,9 @@ BulletManager::~BulletManager()
 	}
 }
 
-void BulletManager::AddWall(Segment* wall)
+void BulletManager::AddWall(Segment wall)
 {
 	walls.push_back(wall);
-	std::cout << "Added new wall at -> " << wall << std::endl;
 }
 
 void BulletManager::AddBulletToSimulation(Bullet* const newBullet)
@@ -89,23 +88,23 @@ void BulletManager::Update(float deltaTime)
 			bool intersect = false;
 			for (size_t j = 0; j < walls.size(); j++)
 			{
-				if(VectorHelper::Magnitude(walls[j]->GetPoint(0) - readBuffer[i]->GetPosition()) > 100 && 
-					VectorHelper::Magnitude(walls[j]->GetPoint(1) - readBuffer[i]->GetPosition()) > 100)
+				Segment& wall = walls[j];
+				if(VectorHelper::Magnitude(wall.GetPoint(0) - readBuffer[i]->GetPosition()) > 100 && 
+					VectorHelper::Magnitude(wall.GetPoint(1) - readBuffer[i]->GetPosition()) > 100)
 					continue;	//600k iterations 5fps average. not so much improvement
 
-				sf::Vector2f pos = walls[j]->GetPoint(0);
-				sf::Vector2f dir = VectorHelper::Normalized(walls[j]->GetPoint(0) - pos);
+				sf::Vector2f pos = wall.GetPoint(0);
+				sf::Vector2f dir = VectorHelper::Normalized(wall.GetPoint(0) - pos);
 				sf::Vector2f intersection;
 				//intersect = walls[i]->RayIntersectsSphere(pos, dir, *bullet, &intersection);
-				intersect = walls[j]->Intersect(*readBuffer[i]);
+				intersect = wall.Intersect(*readBuffer[i]);
 				if (intersect)
 				{
 					//reflect the bullet direction
-					sf::Vector2f reflectedDir = walls[j]->Reflect(readBuffer[i]->GetDirection());
+					sf::Vector2f reflectedDir = wall.Reflect(readBuffer[i]->GetDirection());
 					readBuffer[i]->SetNewDirection(reflectedDir);
 
-					//destroy the wall
-					delete walls[j];
+					//delete walls[j];
 					walls.erase(walls.begin() + j);
 					break;
 				}
@@ -116,14 +115,13 @@ void BulletManager::Update(float deltaTime)
 		i++;
 	}
 	duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
-	//std::cout << "DURATION: " << duration << std::endl;
 }
 
 void BulletManager::RenderWalls(sf::RenderWindow* const windowPtr) const
 {
-	for (Segment* wall : walls)
+	for (const Segment& wall : walls)
 	{
-		wall->Render(windowPtr);
+		wall.Render(windowPtr);
 	}
 }
 

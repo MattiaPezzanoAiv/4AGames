@@ -15,7 +15,7 @@ public:
 	}
 	~BulletManager();
 
-	void AddWall(Segment* wall);
+	void AddWall(Segment wall);
 
 	void Fire(Vector2f pos, Vector2f dir, float speed, float spawnTime, float lifeTime);
 
@@ -38,7 +38,7 @@ private:
 	//lock
 	std::mutex mutex;
 
-	std::vector<Segment*> walls;
+	std::vector<Segment> walls;
 
 	//input queue. this is supposed to handle the new incoming bullet from all threads
 	//every time is accessed should be locked

@@ -12,6 +12,8 @@ class Segment
 {
 public:
 	Segment(Vector2f p1, Vector2f p2);
+	//Segment(Segment&& move) = default;
+
 	float GetLength() const;
 	//returns the normal vector always positively looking
 	Vector2f GetNormal() const;
