@@ -13,7 +13,6 @@ public:
 	{
 		return readBuffer[0];
 	}
-	BulletManager();
 	~BulletManager();
 
 	void AddWall(Segment* wall);

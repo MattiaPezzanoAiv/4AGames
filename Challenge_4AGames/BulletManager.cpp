@@ -5,10 +5,6 @@
 
 #define LOG_ENABLED
 
-BulletManager::BulletManager()
-{
-}
-
 BulletManager::~BulletManager()
 {
 	//destroy all walls
@@ -19,7 +15,6 @@ BulletManager::~BulletManager()
 			continue;
 
 		delete ptr;
-		walls[i] = nullptr;	//not usefull
 	}
 
 	SyncWriteToReadBuffer();	//if something is still in write queue, blit it to read buffer and destroy it
@@ -32,9 +27,7 @@ BulletManager::~BulletManager()
 			continue;
 
 		delete ptr;
-		readBuffer[i] = nullptr;
 	}
-
 }
 
 void BulletManager::AddWall(Segment* wall)
