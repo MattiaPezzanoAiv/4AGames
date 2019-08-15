@@ -50,10 +50,9 @@ Grid::Grid(int rows, int cols)
 
 Grid::~Grid()
 {
-	for (auto n : nodes)
+	for (Node* n : nodes)
 	{
 		delete n;
-
 	}
 }
 

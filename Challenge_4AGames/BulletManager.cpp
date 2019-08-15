@@ -10,7 +10,7 @@ BulletManager::~BulletManager()
 	//destroy all walls
 	for (size_t i = 0; i < walls.size(); i++)
 	{
-		auto ptr = walls[i];
+		Segment* ptr = walls[i];
 		if (ptr == nullptr)
 			continue;
 
@@ -22,7 +22,7 @@ BulletManager::~BulletManager()
 	//destroy all bullets
 	for (size_t i = 0; i < readBuffer.size(); i++)
 	{
-		auto ptr = readBuffer[i];
+		Bullet* ptr = readBuffer[i];
 		if (ptr == nullptr)
 			continue;
 
@@ -77,7 +77,7 @@ void BulletManager::Update(float deltaTime)
 		if (readBuffer[i]->GetDeathTime() <= this->globalTime)
 		{
 			//kill ptr and remove from vector (in this case I don't need to increase i)
-			auto tmp = readBuffer[i];
+			Bullet* tmp = readBuffer[i];
 			delete tmp;
 			readBuffer.erase(readBuffer.begin() + i);
 			continue;
@@ -93,15 +93,15 @@ void BulletManager::Update(float deltaTime)
 					VectorHelper::Magnitude(walls[j]->GetPoint(1) - readBuffer[i]->GetPosition()) > 100)
 					continue;	//600k iterations 5fps average. not so much improvement
 
-				auto pos = walls[j]->GetPoint(0);
-				auto dir = VectorHelper::Normalized(walls[j]->GetPoint(0) - pos);
+				sf::Vector2f pos = walls[j]->GetPoint(0);
+				sf::Vector2f dir = VectorHelper::Normalized(walls[j]->GetPoint(0) - pos);
 				sf::Vector2f intersection;
 				//intersect = walls[i]->RayIntersectsSphere(pos, dir, *bullet, &intersection);
 				intersect = walls[j]->Intersect(*readBuffer[i]);
 				if (intersect)
 				{
 					//reflect the bullet direction
-					auto reflectedDir = walls[j]->Reflect(readBuffer[i]->GetDirection());
+					sf::Vector2f reflectedDir = walls[j]->Reflect(readBuffer[i]->GetDirection());
 					readBuffer[i]->SetNewDirection(reflectedDir);
 
 					//destroy the wall
@@ -121,7 +121,7 @@ void BulletManager::Update(float deltaTime)
 
 void BulletManager::RenderWalls(sf::RenderWindow* const windowPtr) const
 {
-	for (auto wall : walls)
+	for (Segment* wall : walls)
 	{
 		wall->Render(windowPtr);
 	}
@@ -129,7 +129,7 @@ void BulletManager::RenderWalls(sf::RenderWindow* const windowPtr) const
 
 void BulletManager::RenderBullets(sf::RenderWindow * const windowPtr) const
 {
-	for (auto bullet : readBuffer)
+	for (Bullet* bullet : readBuffer)
 	{
 		if (bullet->IsActive())
 			bullet->Render(windowPtr);
@@ -144,10 +144,6 @@ float BulletManager::GetGlobalTime() const
 int BulletManager::GetBulletCount() const
 {
 	return readBuffer.size();
-	/*int count = 0;
-	for (auto e : readBuffer)
-		count += e->IsActive() ? 1 : 0;
-	return count;*/
 }
 
 int BulletManager::GetWallCount() const

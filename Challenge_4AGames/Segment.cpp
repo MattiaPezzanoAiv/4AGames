@@ -27,9 +27,9 @@ Vector2f Segment::GetNormal() const
 
 Vector2f Segment::Reflect(const Vector2f& vectorDir) const
 {
-	auto normal = GetNormal();
+	sf::Vector2f normal = GetNormal();
 	//check if I have to flip the normal
-	auto dirDotNormal = VectorHelper::Dot(vectorDir, normal);
+	float dirDotNormal = VectorHelper::Dot(vectorDir, normal);
 	if (dirDotNormal >= 0)
 		normal *= -1.0f;	//flip normal
 

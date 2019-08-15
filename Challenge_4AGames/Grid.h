@@ -13,11 +13,11 @@ public:
 	Grid(const Grid& copy) = delete;	//disable copy
 
 	void DistributeSegments(BulletManager* const bManager);
+	int BidimensionalToIndex(int row, int col) const;
 
 private:
-	float rows, cols;
+	int rows, cols;
 	std::vector<Node*> nodes;
-	int BidimensionalToIndex(int row, int col) const;
 	float cellW, cellH;
 
 };
