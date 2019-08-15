@@ -12,18 +12,14 @@ class Segment
 {
 public:
 	Segment(Vector2f p1, Vector2f p2);
-	//Segment(Segment&& move) = default;
 
 	float GetLength() const;
-	//returns the normal vector always positively looking
 	Vector2f GetNormal() const;
-	//returns a new vector reflected depending on the direction
 	Vector2f Reflect(const Vector2f& vectorDir) const;
 
-	//this method returns true if there is an intersection, otherwise returns false. If there is an intersection stores the result in the vector2 pointer
+	//this method returns true if there is an intersection, otherwise returns false.
 	bool Intersect(const Bullet& other) const;
 	
-
 	void Render(RenderWindow* const windowPtr) const;
 
 	sf::VertexArray line;

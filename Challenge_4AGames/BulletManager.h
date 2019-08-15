@@ -19,9 +19,7 @@ public:
 
 	void Update(float deltaTime);
 
-	//rendering
 	void RenderWalls(sf::RenderWindow* const windowPtr) const;
-	//this will render only the updated read buffer
 	void RenderBullets(sf::RenderWindow* const windowPtr) const;
 
 	float GetGlobalTime() const;

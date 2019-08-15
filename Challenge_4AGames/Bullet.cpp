@@ -10,7 +10,7 @@ Bullet::Bullet(Vector2f pos, Vector2f dir, float speed, float spawnTime, float l
 	this->spawnTime = spawnTime;
 	this->lifeTime = lifeTime;
 
-	this->renderShape.setFillColor(BULLET_COLOR);	//light green
+	this->renderShape.setFillColor(BULLET_COLOR);
 	this->renderShape.setRadius(BULLET_RADIUS);
 
 	this->SetActive(true);

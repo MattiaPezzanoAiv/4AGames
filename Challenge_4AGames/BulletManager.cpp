@@ -53,8 +53,8 @@ void BulletManager::SyncWriteToReadBuffer()
 
 	while (writeBuffer.size() > 0)
 	{
-		readBuffer.push_back(writeBuffer.front());	//add the element
-		writeBuffer.pop();							//really remove that from queue
+		readBuffer.push_back(writeBuffer.front());
+		writeBuffer.pop();							
 	}
 }
 
@@ -78,9 +78,6 @@ void BulletManager::Update(float deltaTime)
 		//it's time to destroy a bullet
 		if (bullet.GetDeathTime() <= this->globalTime)
 		{
-			//kill ptr and remove from vector (in this case I don't need to increase i)
-			/*Bullet* tmp = readBuffer[i];
-			delete tmp;*/
 			readBuffer.erase(readBuffer.begin() + i);
 			continue;
 		}
@@ -96,10 +93,10 @@ void BulletManager::Update(float deltaTime)
 					VectorHelper::Magnitude(wall.GetPoint(1) - bullet.GetPosition()) > 100)
 					continue;	//600k iterations 5fps average. not so much improvement
 
-				sf::Vector2f pos = wall.GetPoint(0);
-				sf::Vector2f dir = VectorHelper::Normalized(wall.GetPoint(0) - pos);
-				sf::Vector2f intersection;
-				//intersect = walls[i]->RayIntersectsSphere(pos, dir, *bullet, &intersection);
+				//sf::Vector2f pos = wall.GetPoint(0);
+				//sf::Vector2f dir = VectorHelper::Normalized(wall.GetPoint(0) - pos);
+				//sf::Vector2f intersection;
+
 				intersect = wall.Intersect(bullet);
 				if (intersect)
 				{
@@ -112,7 +109,6 @@ void BulletManager::Update(float deltaTime)
 					break;
 				}
 			}
-
 			bullet.Move(deltaTime);
 		}
 		i++;
@@ -154,7 +150,6 @@ int BulletManager::GetWallCount() const
 
 void BulletManager::Fire(Vector2f pos, Vector2f dir, float speed, float spawnTime, float lifeTime)
 {
-	//is the address constant?
 	Bullet newBullet(pos, dir, speed, spawnTime, lifeTime);
 	newBullet.SetActive(spawnTime <= globalTime && lifeTime > globalTime);
 
