@@ -9,7 +9,13 @@
 class BulletManager
 {
 public:
+	BulletManager();
 	~BulletManager();
+
+	Bullet& GetBullet(int idx)
+	{
+		return readBuffer[idx];
+	}
 
 	void AddWall(Segment wall);
 

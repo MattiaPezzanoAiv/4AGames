@@ -1,6 +1,6 @@
 #pragma once
 #include "SFML/Graphics.hpp"
-#include "VectorHelper.h"
+#include "MathHelper.h"
 #include "Bullet.h"
 #include "Defines.h"
 #include <math.h>
@@ -19,6 +19,7 @@ public:
 
 	//this method returns true if there is an intersection, otherwise returns false.
 	bool Intersect(const Bullet& other) const;
+	bool Intersect(const Vector2f& otherP1, const Vector2f& otherP2, Vector2f* const intersectionPoint) const;
 	
 	void Render(RenderWindow* const windowPtr) const;
 
@@ -28,6 +29,5 @@ public:
 
 private:
 	Vector2f p1, p2;
-	bool AlmostZero(float value, float threshold = 0.001f) const;
 };
 

@@ -1,5 +1,4 @@
 #pragma once
-
 #include "SFML\Graphics.hpp"
 #include "Defines.h"
 
@@ -16,11 +15,14 @@ public:
 	
 	//this method moves the bullet using the given direction and speed
 	void Move(float deltaTime);
+	//this returns the hypotetic final position
+	sf::Vector2f SimulateMove(float deltaTime);
 
 	float GetDeathTime() const;
 	Vector2f GetPosition() const;
 	Vector2f GetDirection() const;
 	float GetSpawnTime() const;
+	float GetSpeed() const;
 
 	bool IsActive() const
 	{

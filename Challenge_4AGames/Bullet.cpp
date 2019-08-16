@@ -12,6 +12,7 @@ Bullet::Bullet(Vector2f pos, Vector2f dir, float speed, float spawnTime, float l
 
 	this->renderShape.setFillColor(BULLET_COLOR);
 	this->renderShape.setRadius(BULLET_RADIUS);
+	this->renderShape.setOrigin(sf::Vector2f(BULLET_RADIUS, BULLET_RADIUS));
 
 	this->SetActive(true);
 }
@@ -32,6 +33,11 @@ void Bullet::Move(float deltaTime)
 	renderShape.setPosition(this->position);
 }
 
+sf::Vector2f Bullet::SimulateMove(float deltaTime)
+{
+	return this->position + this->direction * this->speed * deltaTime;
+}
+
 float Bullet::GetDeathTime() const
 {
 	return spawnTime + lifeTime;
@@ -50,4 +56,9 @@ Vector2f Bullet::GetDirection() const
 float Bullet::GetSpawnTime() const
 {
 	return this->spawnTime;
+}
+
+float Bullet::GetSpeed() const
+{
+	return this->speed;
 }

@@ -5,31 +5,16 @@
 
 #define LOG_ENABLED
 
+BulletManager::BulletManager()
+{
+	this->globalTime = 0;
+}
+
 BulletManager::~BulletManager()
 {
-	//destroy all walls
-	/*for (size_t i = 0; i < walls.size(); i++)
-	{
-		Segment& ptr = walls[i];
-		if (ptr == nullptr)
-			continue;
-
-		delete ptr;
-	}*/
-	
 	walls.clear();
 	SyncWriteToReadBuffer();	//if something is still in write queue, blit it to read buffer and destroy it
 	readBuffer.clear();
-
-	//destroy all bullets
-	/*for (size_t i = 0; i < readBuffer.size(); i++)
-	{
-		Bullet& ptr = readBuffer[i];
-		if (ptr == nullptr)
-			continue;
-
-		delete ptr;
-	}*/
 }
 
 void BulletManager::AddWall(Segment wall)
@@ -54,7 +39,7 @@ void BulletManager::SyncWriteToReadBuffer()
 	while (writeBuffer.size() > 0)
 	{
 		readBuffer.push_back(writeBuffer.front());
-		writeBuffer.pop();							
+		writeBuffer.pop();
 	}
 }
 
@@ -85,31 +70,47 @@ void BulletManager::Update(float deltaTime)
 		if (bullet.IsActive())	//bullet is active = spawn time is greater or equal then current global time
 		{
 			//walls iteration and intersection 
-			bool intersect = false;
-			for (size_t j = 0; j < walls.size(); j++)
+			float deltaCache = deltaTime;
+			sf::Vector2f intersPtr(0, 0);
+
+			while (deltaCache > 0)
 			{
-				Segment& wall = walls[j];
-				if(VectorHelper::Magnitude(wall.GetPoint(0) - bullet.GetPosition()) > 100 &&
-					VectorHelper::Magnitude(wall.GetPoint(1) - bullet.GetPosition()) > 100)
-					continue;	//600k iterations 5fps average. not so much improvement
+				bool intersect = false;
 
-				//sf::Vector2f pos = wall.GetPoint(0);
-				//sf::Vector2f dir = VectorHelper::Normalized(wall.GetPoint(0) - pos);
-				//sf::Vector2f intersection;
-
-				intersect = wall.Intersect(bullet);
-				if (intersect)
+				for (size_t j = 0; j < walls.size(); j++)
 				{
-					//reflect the bullet direction
-					sf::Vector2f reflectedDir = wall.Reflect(bullet.GetDirection());
-					bullet.SetNewDirection(reflectedDir);
+					Segment& wall = walls[j];
+					//if (MathHelper::Magnitude(wall.GetPoint(0) - bullet.GetPosition()) > bullet.GetSpeed() * deltaTime &&
+					//	MathHelper::Magnitude(wall.GetPoint(1) - bullet.GetPosition()) > bullet.GetSpeed() * deltaTime)
+					//	continue;	//600k iterations 5fps average. not so much improvement
 
-					//delete walls[j];
-					walls.erase(walls.begin() + j);
-					break;
+					//the bullet is treated like a point
+					intersect = wall.Intersect(bullet.GetPosition(), bullet.SimulateMove(deltaCache), &intersPtr);
+					if (intersect)
+					{
+						//calculate delta passed before the intersection
+						float dt = abs((MathHelper::Magnitude(bullet.GetPosition() - intersPtr))) / bullet.GetSpeed();
+
+						deltaCache -= dt;
+
+						//move based on this delta
+						bullet.Move(dt);
+
+						//reflect the bullet direction
+						sf::Vector2f reflectedDir = wall.Reflect(bullet.GetDirection());
+						bullet.SetNewDirection(reflectedDir);
+
+						walls.erase(walls.begin() + j);
+						break;
+					}
+				}
+
+				if (!intersect)
+				{ 
+					bullet.Move(deltaCache);
+					deltaCache = -1;
 				}
 			}
-			bullet.Move(deltaTime);
 		}
 		i++;
 	}
@@ -152,6 +153,10 @@ void BulletManager::Fire(Vector2f pos, Vector2f dir, float speed, float spawnTim
 {
 	Bullet newBullet(pos, dir, speed, spawnTime, lifeTime);
 	newBullet.SetActive(spawnTime <= globalTime && lifeTime > globalTime);
+	/*std::cout << "is active -> " << ((spawnTime <= globalTime && lifeTime > globalTime) ? "true" : "false") << std::endl;
+	std::cout << "spawntime -> " << spawnTime << std::endl;
+	std::cout << "life time -> " << lifeTime << std::endl;
+	std::cout << "global time -> " << globalTime << std::endl;*/
 
 	this->AddBulletToSimulation(std::move(newBullet));
 }

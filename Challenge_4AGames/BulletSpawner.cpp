@@ -43,7 +43,7 @@ void BulletSpawner::CallFireFromOtherThread() const
 	float dirX = (rand() % WINDOW_W) - posX;
 	float dirY = (rand() % WINDOW_H) - posY;
 	Vector2f dir(dirX, dirY);
-	dir = VectorHelper::Normalized(dir);
+	dir = MathHelper::Normalized(dir);
 
 	float lifeTime = rand() % 10;
 
