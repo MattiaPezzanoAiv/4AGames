@@ -65,6 +65,26 @@ TEST(Global, StepCollisionTestRedLight)
 	EXPECT_FLOAT_EQ(bullet.GetPosition().y, 0);
 }
 
+TEST(Global, WriteBufferBlit)
+{
+	BulletManager manager;
+
+	EXPECT_EQ(manager.GetBulletCount(), 0);
+	manager.Fire(sf::Vector2f(100, 0), sf::Vector2f(1, 0), 100, 0, 5000);
+	EXPECT_EQ(manager.GetBulletCount(), 0);
+	manager.SyncWriteToReadBuffer();
+	EXPECT_EQ(manager.GetBulletCount(), 1);
+}
+TEST(Global, WriteBufferNoBlit)
+{
+	BulletManager manager;
+
+	EXPECT_EQ(manager.GetBulletCount(), 0);
+	manager.Fire(sf::Vector2f(100, 0), sf::Vector2f(1, 0), 100, 0, 5000);
+	EXPECT_EQ(manager.GetBulletCount(), 0);
+	EXPECT_EQ(manager.GetBulletCount(), 0);
+}
+
 int main(int argc, char** args)
 {
 	::testing::InitGoogleTest(&argc, args);

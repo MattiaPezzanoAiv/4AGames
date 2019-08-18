@@ -12,6 +12,7 @@ public:
 	BulletManager();
 	~BulletManager();
 
+	//only used for tests
 	Bullet& GetBullet(int idx)
 	{
 		return readBuffer[idx];
@@ -19,10 +20,13 @@ public:
 
 	void AddWall(Segment wall);
 
+	//inject a bullet in the write buffer. Not yet in the simulation. To sync buffers call "SyncWriteToReadBuffer()". 
+	//This call is thread safe
 	void Fire(Vector2f pos, Vector2f dir, float speed, float spawnTime, float lifeTime);
 
-	void SyncWriteToReadBuffer();							//also this will lock
+	void SyncWriteToReadBuffer();
 
+	//Update the simulation (handling collisions, movements)
 	void Update(float deltaTime);
 
 	void RenderWalls(sf::RenderWindow* const windowPtr) const;
@@ -49,6 +53,5 @@ private:
 
 	//write buffer manipulation
 	void AddBulletToSimulation(Bullet newBullet);	//this will lock
-
 };
 

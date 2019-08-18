@@ -6,13 +6,14 @@ class Node
 {
 public:
 	Node(int x, int y);
-	~Node();
 
 	void AddNeighbour(Node* node);
+	sf::Vector2f GridToScreenPos(float cellW, float cellH) const;
 
-	std::vector<Node*> neighbours;
-	sf::Vector2f GridToScreenPos(float cellW, float cellH);
+	bool IsVisited;
+
 private:
+	std::vector<Node*> neighbours;
 	sf::Vector2i gridPosition;
 };
 

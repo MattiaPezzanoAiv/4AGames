@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "BulletSpawner.h"
 
 BulletSpawner::BulletSpawner(int minRateMs, int maxRateMs, BulletManager* manager)
@@ -7,13 +6,13 @@ BulletSpawner::BulletSpawner(int minRateMs, int maxRateMs, BulletManager* manage
 	this->maxRate = maxRateMs;
 	this->manager = manager;
 
-	myThread = std::thread(&BulletSpawner::Run, this);	//ptr to function
+	myThread = std::thread(&BulletSpawner::Run, this);
 }
 
 BulletSpawner::~BulletSpawner()
 {
 	killFlag = true;
-	this->myThread.join();	//to be sure the thread finish is job. avoid leak
+	this->myThread.join();	//to be sure the thread finish its job. avoid leak
 }
 
 void BulletSpawner::Run()

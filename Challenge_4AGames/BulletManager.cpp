@@ -1,8 +1,8 @@
-#include "stdafx.h"
 #include "BulletManager.h"
 #include <cstdio>
 #include <ctime>
 
+//#define PROFILING
 #define LOG_ENABLED
 
 BulletManager::BulletManager()
@@ -27,7 +27,7 @@ void BulletManager::AddBulletToSimulation(Bullet newBullet)
 	//start lock resources
 	std::lock_guard<std::mutex> lock(this->mutex);		//This should be released when it goes out of scope
 
-	writeBuffer.push(newBullet);	//added a new bullet
+	writeBuffer.push(newBullet);
 }
 
 void BulletManager::SyncWriteToReadBuffer()
@@ -45,10 +45,11 @@ void BulletManager::SyncWriteToReadBuffer()
 
 void BulletManager::Update(float deltaTime)
 {
+#ifdef PROFILING
 	std::clock_t start;
 	double duration;
-
 	start = std::clock();
+#endif
 
 	globalTime += deltaTime;
 
@@ -67,24 +68,20 @@ void BulletManager::Update(float deltaTime)
 			continue;
 		}
 
-		if (bullet.IsActive())	//bullet is active = spawn time is greater or equal then current global time
+		if (bullet.IsActive())
 		{
-			//walls iteration and intersection 
 			float deltaCache = deltaTime;
 			sf::Vector2f intersPtr(0, 0);
 
 			while (deltaCache > 0)
 			{
 				bool intersect = false;
-
 				for (size_t j = 0; j < walls.size(); j++)
 				{
 					Segment& wall = walls[j];
-					//if (MathHelper::Magnitude(wall.GetPoint(0) - bullet.GetPosition()) > bullet.GetSpeed() * deltaTime &&
-					//	MathHelper::Magnitude(wall.GetPoint(1) - bullet.GetPosition()) > bullet.GetSpeed() * deltaTime)
-					//	continue;	//600k iterations 5fps average. not so much improvement
-
+					
 					//the bullet is treated like a point
+					//sf::Vector2f bulletRayOrigin = bullet.GetPosition() + bullet.GetDirection() * BULLET_RADIUS;
 					intersect = wall.Intersect(bullet.GetPosition(), bullet.SimulateMove(deltaCache), &intersPtr);
 					if (intersect)
 					{
@@ -93,6 +90,7 @@ void BulletManager::Update(float deltaTime)
 
 						deltaCache -= dt;
 
+						//adjust end point
 						//move based on this delta
 						bullet.Move(dt);
 
@@ -114,7 +112,11 @@ void BulletManager::Update(float deltaTime)
 		}
 		i++;
 	}
+
+#ifdef PROFILING
 	duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
+	std::cout << "update duration -> " << duration << std::endl;
+#endif
 }
 
 void BulletManager::RenderWalls(sf::RenderWindow* const windowPtr) const
@@ -153,10 +155,6 @@ void BulletManager::Fire(Vector2f pos, Vector2f dir, float speed, float spawnTim
 {
 	Bullet newBullet(pos, dir, speed, spawnTime, lifeTime);
 	newBullet.SetActive(spawnTime <= globalTime && lifeTime > globalTime);
-	/*std::cout << "is active -> " << ((spawnTime <= globalTime && lifeTime > globalTime) ? "true" : "false") << std::endl;
-	std::cout << "spawntime -> " << spawnTime << std::endl;
-	std::cout << "life time -> " << lifeTime << std::endl;
-	std::cout << "global time -> " << globalTime << std::endl;*/
 
 	this->AddBulletToSimulation(std::move(newBullet));
 }

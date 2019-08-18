@@ -13,6 +13,7 @@ public:
 
 	int minRate, maxRate;
 
+	//should implement the thread code
 	void Run();
 
 private:

@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "Segment.h"
 
 class MathHelper;
@@ -61,34 +60,6 @@ Vector2f Segment::Reflect(const Vector2f& vectorDir) const
 		reflectedVector = dir * -1.0f;
 
 	return reflectedVector;
-}
-
-bool Segment::Intersect(const Bullet & other) const
-{
-	/*sf::Vector2f ac = other.GetPosition() - p1;
-	float r2 = BULLET_RADIUS * BULLET_RADIUS;
-	sf::Vector2f ab = MathHelper::Normalized(p2 - p1);
-	sf::Vector2f ah = MathHelper::Dot(ac, ab) * ab;
-
-	float acLen = MathHelper::Magnitude(ac);
-	float ahLen = MathHelper::Magnitude(ah);
-	return ((acLen * acLen) - (ahLen * ahLen)) <= r2;*/
-
-	/*sf::Vector2f ac = other.GetPosition() - p1;
-	sf::Vector2f ab = MathHelper::Normalized(p2 - p1);
-	sf::Vector2f ah = MathHelper::Dot(ac, ab) * ab;
-	sf::Vector2f h = p1 + ah;
-	return MathHelper::Magnitude(h - other.GetPosition()) <= BULLET_RADIUS;*/
-
-	/*sf::Vector2f ac = other.GetPosition() - p1;
-	sf::Vector2f ab = MathHelper::Normalized(p2 - p1);
-	sf::Vector2f ah = ab * MathHelper::Dot(ac, ab);
-	sf::Vector2f h = p1 + ah;
-	return MathHelper::Magnitude(h - other.GetPosition()) <= BULLET_RADIUS;*/
-
-	float p1Dist = MathHelper::Magnitude(this->p1 - other.GetPosition());
-	float p2Dist = MathHelper::Magnitude(this->p2 - other.GetPosition());
-	return (p1Dist + p2Dist - this->GetLength()) <= BULLET_RADIUS;	//this should work
 }
 
 bool Segment::Intersect(const Vector2f & otherP1, const Vector2f & otherP2, Vector2f * const intersectionPointPtr) const

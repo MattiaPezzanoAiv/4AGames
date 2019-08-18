@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "MathHelper.h"
 
 float MathHelper::Dot(const Vector2f & v1, const Vector2f & v2)

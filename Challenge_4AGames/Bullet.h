@@ -10,12 +10,12 @@ public:
 	Bullet(Vector2f pos, Vector2f dir, float speed, float spawnTime, float lifeTime);
 
 	void Render(sf::RenderWindow* const windowPtr) const;
-	//this method is responsible to sync the position etc, to the circle shape just before rendering
+	
 	void SetNewDirection(Vector2f newDir);
 	
 	//this method moves the bullet using the given direction and speed
 	void Move(float deltaTime);
-	//this returns the hypotetic final position
+	//this returns the hypotetic final position simulated in the given delta time
 	sf::Vector2f SimulateMove(float deltaTime);
 
 	float GetDeathTime() const;
