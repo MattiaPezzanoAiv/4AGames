@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\Grid">
-      <UniqueIdentifier>{d601244f-c288-4885-afd2-5e1de9dbaaa4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Grid">
-      <UniqueIdentifier>{28254db9-9d59-4f12-b3e1-bfde9050883b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -39,12 +33,6 @@
     <ClInclude Include="Defines.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Grid.h">
-      <Filter>Header Files\Grid</Filter>
-    </ClInclude>
-    <ClInclude Include="Node.h">
-      <Filter>Header Files\Grid</Filter>
-    </ClInclude>
     <ClInclude Include="MathHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -61,12 +49,6 @@
     </ClCompile>
     <ClCompile Include="BulletSpawner.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Grid.cpp">
-      <Filter>Source Files\Grid</Filter>
-    </ClCompile>
-    <ClCompile Include="Node.cpp">
-      <Filter>Source Files\Grid</Filter>
     </ClCompile>
     <ClCompile Include="MathHelper.cpp">
       <Filter>Source Files</Filter>

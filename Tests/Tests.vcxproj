@@ -34,7 +34,6 @@
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
     <ClCompile Include="BulletTests.cpp" />
-    <ClCompile Include="GridTests.cpp" />
     <ClCompile Include="SegmentTests.cpp" />
     <ClCompile Include="test.cpp" />
     <ClCompile Include="MathHelperTests.cpp" />

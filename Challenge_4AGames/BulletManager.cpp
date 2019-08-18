@@ -2,7 +2,7 @@
 #include <cstdio>
 #include <ctime>
 
-#define PROFILING
+//#define PROFILING
 #define LOG_ENABLED
 
 BulletManager::BulletManager()
@@ -97,7 +97,6 @@ void BulletManager::Update(float deltaTime)
 
 						deltaCache -= dt;
 
-						//move based on this delta
 						cachedBulletPos = cachedVector;
 
 						//reflect the bullet direction
