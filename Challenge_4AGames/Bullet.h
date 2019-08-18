@@ -13,10 +13,9 @@ public:
 	
 	void SetNewDirection(Vector2f newDir);
 	
-	//this method moves the bullet using the given direction and speed
-	void Move(float deltaTime);
 	//this returns the hypotetic final position simulated in the given delta time
-	sf::Vector2f SimulateMove(float deltaTime);
+	sf::Vector2f SimulateMove(float deltaTime) const;
+	void SetPosition(sf::Vector2f pos);
 
 	float GetDeathTime() const;
 	Vector2f GetPosition() const;

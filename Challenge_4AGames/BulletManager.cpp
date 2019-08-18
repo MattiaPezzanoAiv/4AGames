@@ -2,7 +2,7 @@
 #include <cstdio>
 #include <ctime>
 
-//#define PROFILING
+#define PROFILING
 #define LOG_ENABLED
 
 BulletManager::BulletManager()
@@ -71,28 +71,34 @@ void BulletManager::Update(float deltaTime)
 		if (bullet.IsActive())
 		{
 			float deltaCache = deltaTime;
-			sf::Vector2f intersPtr(0, 0);
 
+			sf::Vector2f cachedVector;
+			//I use this cached vector to cache the final position in order to calculate it only one time
+			//if there is a collision it's used to cache the intersection point
+
+			sf::Vector2f cachedBulletPos = bullet.GetPosition();
+			//I use this cached pos to avoid a method call to set position every collision and set 
+			//the render object position every step (not useful because it will not be rendered)
 			while (deltaCache > 0)
 			{
 				bool intersect = false;
+				cachedVector = cachedBulletPos + bullet.GetDirection() * bullet.GetSpeed() * deltaCache;
+
 				for (size_t j = 0; j < walls.size(); j++)
 				{
 					Segment& wall = walls[j];
-					
+
 					//the bullet is treated like a point
-					//sf::Vector2f bulletRayOrigin = bullet.GetPosition() + bullet.GetDirection() * BULLET_RADIUS;
-					intersect = wall.Intersect(bullet.GetPosition(), bullet.SimulateMove(deltaCache), &intersPtr);
+					intersect = wall.Intersect(cachedBulletPos, cachedVector, &cachedVector);
 					if (intersect)
 					{
 						//calculate delta passed before the intersection
-						float dt = abs((MathHelper::Magnitude(bullet.GetPosition() - intersPtr))) / bullet.GetSpeed();
+						float dt = abs((MathHelper::Magnitude(cachedBulletPos - cachedVector))) / bullet.GetSpeed();
 
 						deltaCache -= dt;
 
-						//adjust end point
 						//move based on this delta
-						bullet.Move(dt);
+						cachedBulletPos = cachedVector;
 
 						//reflect the bullet direction
 						sf::Vector2f reflectedDir = wall.Reflect(bullet.GetDirection());
@@ -102,13 +108,13 @@ void BulletManager::Update(float deltaTime)
 						break;
 					}
 				}
-
 				if (!intersect)
-				{ 
-					bullet.Move(deltaCache);
+				{
+					cachedBulletPos = cachedVector;
 					deltaCache = -1;
 				}
 			}
+			bullet.SetPosition(cachedBulletPos);
 		}
 		i++;
 	}

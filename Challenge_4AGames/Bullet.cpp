@@ -26,15 +26,15 @@ void Bullet::SetNewDirection(Vector2f newDir)
 	this->direction = newDir;
 }
 
-void Bullet::Move(float deltaTime)
-{
-	this->position += this->direction * this->speed * deltaTime;
-	renderShape.setPosition(this->position);
-}
-
-sf::Vector2f Bullet::SimulateMove(float deltaTime)
+sf::Vector2f Bullet::SimulateMove(float deltaTime) const
 {
 	return this->position + this->direction * this->speed * deltaTime;
+}
+
+void Bullet::SetPosition(sf::Vector2f pos)
+{
+	position = pos;
+	renderShape.setPosition(pos);
 }
 
 float Bullet::GetDeathTime() const
