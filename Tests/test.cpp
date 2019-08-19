@@ -84,6 +84,42 @@ TEST(Global, WriteBufferNoBlit)
 	EXPECT_EQ(manager.GetBulletCount(), 0);
 	EXPECT_EQ(manager.GetBulletCount(), 0);
 }
+TEST(Global, StepCollisionMultipleBullets)
+{
+	BulletManager manager;
+	manager.Fire(sf::Vector2f(100, 0), sf::Vector2f(1, 0), 100, 0, 5000);
+	manager.Fire(sf::Vector2f(100, 0), sf::Vector2f(1, 0), 100, 0, 5000);
+
+	Segment w1(sf::Vector2f(0, -50), sf::Vector2f(0, 50));
+	Segment w2(sf::Vector2f(200, -50), sf::Vector2f(200, 50));
+	manager.AddWall(std::move(w1));
+	manager.AddWall(std::move(w2));
+
+	/*
+	situation:
+	|		|
+	|		|
+	|	* ->|
+	|		|
+	|		|
+
+	equal distance from the 2 walls
+	after 4 seconds I expect the same point as start
+	the second one full trajectory
+	*/
+
+	manager.SyncWriteToReadBuffer();
+	Bullet& bullet = manager.GetBullet(0);
+	Bullet& bullet2 = manager.GetBullet(1);
+
+	manager.Update(4);
+
+	EXPECT_FLOAT_EQ(bullet.GetPosition().x, 100);
+	EXPECT_FLOAT_EQ(bullet.GetPosition().y, 0);
+
+	EXPECT_FLOAT_EQ(bullet2.GetPosition().x, 500);
+	EXPECT_FLOAT_EQ(bullet2.GetPosition().y, 0);
+}
 
 int main(int argc, char** args)
 {

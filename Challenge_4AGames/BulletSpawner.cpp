@@ -24,7 +24,8 @@ void BulletSpawner::Run()
 
 	while (!killFlag)
 	{
-		sleepTime = rand() % (int)range + minRate;
+		//sleepTime = rand() % (int)range + minRate;
+		sleepTime = GetRandom(maxRate, minRate);
 		int sleepMs = sleepTime;
 		std::this_thread::sleep_for(std::chrono::milliseconds(sleepMs));
 
@@ -36,15 +37,15 @@ void BulletSpawner::Run()
 
 void BulletSpawner::CallFireFromOtherThread() const
 {
-	float posX = rand() % WINDOW_W;
-	float posY = rand() % WINDOW_H;
+	float posX = GetRandom(WINDOW_W);
+	float posY = GetRandom(WINDOW_H);
 
-	float dirX = (rand() % WINDOW_W) - posX;
-	float dirY = (rand() % WINDOW_H) - posY;
+	float dirX = GetRandom(WINDOW_W) - posX;
+	float dirY = GetRandom(WINDOW_H) - posY;
 	Vector2f dir(dirX, dirY);
 	dir = MathHelper::Normalized(dir);
 
-	float lifeTime = rand() % 10;
+	float lifeTime = GetRandom(10);
 
-	manager->Fire(Vector2f(posX, posY), dir, BULLET_SPEED, manager->GetGlobalTime() + rand() % 10, lifeTime);
+	manager->Fire(Vector2f(posX, posY), dir, BULLET_SPEED, manager->GetGlobalTime() + GetRandom(10), lifeTime);
 }
